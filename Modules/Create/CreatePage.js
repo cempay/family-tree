@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
+import {createRelative} from './CreateActions';
 
 export default class CreatePage extends React.Component {
   static navigationOptions = {
@@ -7,19 +8,43 @@ export default class CreatePage extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = {text: ''};
+    this.state = {
+      fullName: ''
+    };
   }
+
+  handleSave = () => {
+    const {fullName} = this.state;
+    createRelative({
+      fullName
+    })
+      .then(() => {
+        this.props.navigation.goBack();
+        Alert.alert(
+          'Success',
+          'Success saving data'
+        );
+      })
+      .catch(() => {
+        Alert.alert(
+          'Error',
+          'Error saving data'
+        );
+      });
+  };
+
   render() {
     return (
       <View style={{padding: 10}}>
         <TextInput
           style={{height: 40}}
-          placeholder="Type here to translate Create!"
-          onChangeText={(text) => this.setState({text})}
+          placeholder="Lastname Firstname Middlename"
+          onChangeText={(fullName) => this.setState({fullName})}
         />
-        <Text style={{padding: 10, fontSize: 42}}>
-          {this.state.text.split(' ').map((word) => word && '🍕').join(' ')}
-        </Text>
+        <Button
+          title="Save"
+          onPress={this.handleSave}
+        />
       </View>
     );
   }
