@@ -1,11 +1,8 @@
 import { AsyncStorage } from "react-native"
-import {uid} from './entity';
 
 export const storeData = async (key, data) => {
-  key = key || uid();
   try {
-    debugger;
-    const result = await AsyncStorage.setItem(key, data);
+    const result = await AsyncStorage.setItem(key, JSON.stringify(data));
     return Promise.resolve(result);
   } catch (error) {
     console.error('Error saving data');
@@ -16,7 +13,7 @@ export const storeData = async (key, data) => {
 export const retrieveData = async (key) => {
   try {
     const data = await AsyncStorage.getItem(key);
-    return data;
+    return data ? JSON.parse(data) : null;
   } catch (error) {
     console.error('Error retrieving data');
     return Promise.reject(error);

@@ -10,18 +10,15 @@ export const createRelative = (data) => {
         ...oldData,
         [uid()]: data
       })
-    })
-    .then((result) => {
-      return result;
     });
 };
 
 export const retrieveAllRelatives = () => {
-  return retriveData(key);
+  return retrieveData(key);
 };
 
 export const retrieveRelative = (key) => {
-  return retriveData(key)
+  return retrieveData(key)
     .then((dict = {}) => {
       return dict[key];
     });
