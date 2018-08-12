@@ -1,10 +1,16 @@
 import React from 'react';
 import { Button, View, StyleSheet } from 'react-native';
+//import {retrieveAllRelatives} from '../Create/CreateActions'
 
 export default class MainPage extends React.Component {
   static navigationOptions = {
     title: 'Menu',
   };
+
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     return (

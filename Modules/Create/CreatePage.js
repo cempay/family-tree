@@ -1,6 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux'
 import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
-import {createRelative} from './CreateActions';
+//import {createRelative} from './CreateActions';
+import * as actions from '../../actions/relativesActions'
 
 export default class CreatePage extends React.Component {
   static navigationOptions = {
@@ -14,23 +16,24 @@ export default class CreatePage extends React.Component {
   }
 
   handleSave = () => {
+    const {createTodoItem} = this.props;
     const {fullName} = this.state;
-    createRelative({
+    createTodoItem({
       fullName
     })
-      .then(() => {
-        this.props.navigation.goBack();
-        Alert.alert(
-          'Success',
-          'Success saving data'
-        );
-      })
-      .catch(() => {
-        Alert.alert(
-          'Error',
-          'Error saving data'
-        );
-      });
+      //.then(() => {
+      //  this.props.navigation.goBack();
+      //  Alert.alert(
+      //    'Success',
+      //    'Success saving data'
+      //  );
+      //})
+      //.catch(() => {
+      //  Alert.alert(
+      //    'Error',
+      //    'Error saving data'
+      //  );
+      //});
   };
 
   render() {
@@ -58,3 +61,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+const mapDispatchToProps = {
+  ...actions
+}
+
+export default connect(null, mapDispatchToProps)(CreatePage)
