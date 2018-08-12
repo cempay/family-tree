@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, View, StyleSheet } from 'react-native';
 // import {retrieveAllRelatives} from '../Create/CreateActions'
 
@@ -7,12 +8,12 @@ export default class MainPage extends React.Component {
     title: 'Menu',
   };
 
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+  };
 
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigation: { navigate } } = this.props;
     return (
       <View style={styles.actionPanel}>
         <Button

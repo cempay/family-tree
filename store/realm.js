@@ -17,6 +17,8 @@ class TodoItem {
   }
 }
 
+const realm = new Realm({ schema: [TodoItem] });
+
 export const todoItemDS = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.id !== r2.id });
 
 export const getTodoItems = () => {
@@ -54,5 +56,3 @@ export const deleteTodoItem = (todoItem) => {
     realm.delete(todoItem);
   });
 };
-
-const realm = new Realm({ schema: [TodoItem] });

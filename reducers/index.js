@@ -5,4 +5,4 @@ export default combineReducers({
   todoItems,
 });
 
-export const getTodoItems = ({ todoItems }) => todoItems;
+export const getTodoItems = state => state.todoItems;

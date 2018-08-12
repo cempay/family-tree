@@ -1,17 +1,17 @@
 import { storeData, retrieveData } from '../../Services/storage';
-import { uid } from '../../Services/entity';
+// import { uid } from '../../Services/entity';
 
 const key = 'relatives';
 
 export const createRelative = data => retrieveData(key)
   .then((oldData = {}) => storeData(key, {
     ...oldData,
-    [uid()]: data,
+    stubUid: data,
   }));
 
 export const retrieveAllRelatives = () => retrieveData(key);
 
-export const retrieveRelative = key => retrieveData(key)
+export const retrieveRelative = aKey => retrieveData(aKey)
   .then((dict = {}) => dict[key]);
 
 export default {

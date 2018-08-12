@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Text, Alert } from 'react-native';
+import { View, Text } from 'react-native';
 import { ListView } from 'realm/react-native';
-import { isEmpty } from '../../Services/util';
 import store from '../../store';
 import * as actions from '../../actions/relativesActions';
 import { getTodoItems } from '../../reducers';
@@ -10,6 +10,10 @@ import { getTodoItems } from '../../reducers';
 class RelativesTreePage extends React.Component {
   static navigationOptions = {
     title: 'Relatives tree',
+  };
+
+  static propTypes = {
+    dataSource: PropTypes.object.isRequired,
   };
 
   render() {
@@ -32,7 +36,7 @@ class RelativesTreePage extends React.Component {
 // Realm.Results is auto-updating, therefore no need to re-fetch the data
 const todoItemsResults = store.getTodoItems();
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
   ...getTodoItems(state),
   dataSource: store.todoItemDS.cloneWithRows(todoItemsResults),
 });
