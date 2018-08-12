@@ -1,4 +1,4 @@
-import { AsyncStorage } from "react-native"
+import { AsyncStorage } from 'react-native';
 
 export const storeData = async (key, data) => {
   try {
@@ -8,7 +8,7 @@ export const storeData = async (key, data) => {
     console.error('Error saving data');
     return Promise.reject(error);
   }
-}
+};
 
 export const retrieveData = async (key) => {
   try {
@@ -18,4 +18,4 @@ export const retrieveData = async (key) => {
     console.error('Error retrieving data');
     return Promise.reject(error);
   }
-}
+};

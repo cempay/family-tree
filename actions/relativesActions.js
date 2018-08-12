@@ -1,15 +1,15 @@
-import store from '../store'
+import store from '../store';
 
 export const createTodoItem = (entity) => {
-  store.createTodoItem(entity)
+  store.createTodoItem(entity);
   return {
-    type: 'TODO_ITEM_ADDED'
-  }
-}
+    type: 'TODO_ITEM_ADDED',
+  };
+};
 
 export const deleteTodoItem = (todoItem) => {
-  store.deleteTodoItem(todoItem)
+  store.deleteTodoItem(todoItem);
   return {
-    type: 'TODO_ITEM_DELETED'
-  }
-}
+    type: 'TODO_ITEM_DELETED',
+  };
+};

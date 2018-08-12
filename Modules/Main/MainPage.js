@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, View, StyleSheet } from 'react-native';
-//import {retrieveAllRelatives} from '../Create/CreateActions'
+// import {retrieveAllRelatives} from '../Create/CreateActions'
 
 export default class MainPage extends React.Component {
   static navigationOptions = {
@@ -18,15 +18,13 @@ export default class MainPage extends React.Component {
         <Button
           style={styles.action}
           title="Create a relative..."
-          onPress={() =>
-            navigate('Create')
+          onPress={() => navigate('Create')
           }
         />
         <Button
           style={styles.action}
           title="Show relatives..."
-          onPress={() =>
-            navigate('RelativesTree')
+          onPress={() => navigate('RelativesTree')
           }
         />
       </View>
@@ -46,4 +44,3 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
-
