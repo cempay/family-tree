@@ -9,6 +9,11 @@
 # idea
 .idea/
 
+# android build
+/android/.gradle
+/android/build
+/android/app/build
+
 # misc
 .env.local
 .env.development.local

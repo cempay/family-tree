@@ -1,3 +1,4 @@
+/*
 import Realm from 'realm';
 import { ListView } from 'realm/react-native';
 
@@ -56,3 +57,4 @@ export const deleteTodoItem = (todoItem) => {
     realm.delete(todoItem);
   });
 };
+*/

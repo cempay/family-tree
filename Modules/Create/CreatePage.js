@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  StyleSheet, View, TextInput, Button,
+  View, TextInput, Button,
 } from 'react-native';
 import * as actions from '../../actions/relativesActions';
 
