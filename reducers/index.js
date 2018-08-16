@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux';
-import todoItems from './todoItems';
+import relatives from './relativesReducer';
 
 export default combineReducers({
-  todoItems,
+  relatives,
 });
-
-export const getTodoItems = state => state.todoItems;

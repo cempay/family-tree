@@ -18,19 +18,19 @@ export default class PouchDBStore {
     }).on('change', this.getRelativeList);
   }
 
-  createTodoItem = (item) => {
+  createRelative = (item) => {
     const data = {
       _id: uuid.v1(),
       ...item,
     };
     db.put(data, (err) => {
       if (!err) {
-        console.log('Successfully posted a todo!');
+        console.log('Successfully created!');
       }
     });
   };
 
-  deleteTodoItem = (data) => {
+  deleteRelative = (data) => {
     db.remove(data);
   };
 

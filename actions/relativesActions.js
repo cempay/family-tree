@@ -1,36 +1,32 @@
 import PouchDBStore from '../store/pouchdb';
+import reduxStore from '../store/createReduxStore';
 
-export const getRelativeListSuccess = data => ({
-  type: 'RELATIVE_LIST_SUCCESS',
-  payload: data,
-});
+export const getRelativeListSuccess = data => (
+  reduxStore.dispatch({
+    type: 'RELATIVE_LIST_SUCCESS',
+    payload: data,
+  })
+);
 
 const store = new PouchDBStore({ onRefresh: getRelativeListSuccess });
 
-export const createTodoItem = (data) => {
-  store.createTodoItem(data);
+export const createRelative = (data) => {
+  store.createRelative(data);
   return {
-    type: 'TODO_ITEM_ADDED',
+    type: 'CREATE_RELATIVE',
   };
 };
 
-export const deleteTodoItem = (data) => {
-  store.deleteTodoItem(data);
+export const deleteRelative = (data) => {
+  store.deleteRelative(data);
   return {
-    type: 'TODO_ITEM_DELETED',
+    type: 'DELETE_RELATIVE',
   };
 };
 
 export const getRelativeListRequest = () => {
-  store.getRelativeList(getRelativeListSuccess);
+  store.getRelativeList();
   return {
     type: 'RELATIVE_LIST_REQUEST',
   };
-};
-
-export default {
-  createTodoItem,
-  deleteTodoItem,
-  getRelativeListRequest,
-  getRelativeListSuccess,
 };

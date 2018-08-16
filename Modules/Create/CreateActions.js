@@ -1,3 +1,4 @@
+/*
 import { storeData, retrieveData } from '../../Services/storage';
 // import { uid } from '../../Services/entity';
 
@@ -19,3 +20,4 @@ export default {
   retrieveAllRelatives,
   retrieveRelative,
 };
+*/

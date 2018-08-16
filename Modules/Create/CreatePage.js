@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  View, TextInput, Button,
+  View, TextInput, Button, Alert
 } from 'react-native';
-import * as actions from '../../actions/relativesActions';
+import {createRelative} from '../../actions/relativesActions';
 
 class CreatePage extends React.Component {
   static navigationOptions = {
@@ -12,7 +12,8 @@ class CreatePage extends React.Component {
   };
 
   static propTypes = {
-    createTodoItem: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
+    createRelative: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -23,18 +24,18 @@ class CreatePage extends React.Component {
   }
 
   handleSave = () => {
-    const { createTodoItem } = this.props;
+    const { createRelative, navigation } = this.props;
     const { fullName } = this.state;
-    createTodoItem({
+    createRelative({
       fullName,
     });
-    // .then(() => {
-    //  this.props.navigation.goBack();
-    //  Alert.alert(
-    //    'Success',
-    //    'Success saving data'
-    //  );
-    // })
+    .then(() => {
+      navigation.goBack();
+      Alert.alert(
+        'Success',
+        'Success saving data'
+      );
+    });
     // .catch(() => {
     //  Alert.alert(
     //    'Error',
@@ -70,7 +71,7 @@ class CreatePage extends React.Component {
 // });
 
 const mapDispatchToProps = {
-  ...actions,
+  createRelative,
 };
 
 export default connect(null, mapDispatchToProps)(CreatePage);
