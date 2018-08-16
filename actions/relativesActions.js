@@ -10,8 +10,8 @@ export const getRelativeListSuccess = data => (
 
 const store = new PouchDBStore({ onRefresh: getRelativeListSuccess });
 
-export const createRelative = (data) => {
-  store.createRelative(data);
+export const createRelative = (data, onSuccess, onFailure) => {
+  store.createRelative(data, onSuccess, onFailure);
   return {
     type: 'CREATE_RELATIVE',
   };

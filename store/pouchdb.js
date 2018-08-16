@@ -18,14 +18,16 @@ export default class PouchDBStore {
     }).on('change', this.getRelativeList);
   }
 
-  createRelative = (item) => {
+  createRelative = (item, onSuccess, onFailure) => {
     const data = {
       _id: uuid.v1(),
       ...item,
     };
     db.put(data, (err) => {
-      if (!err) {
-        console.log('Successfully created!');
+      if (err) {
+        onFailure && onFailure(err);
+      } else {
+        onSuccess && onSuccess();
       }
     });
   };

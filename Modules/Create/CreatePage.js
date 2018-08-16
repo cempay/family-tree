@@ -23,25 +23,27 @@ class CreatePage extends React.Component {
     };
   }
 
+  handleSuccess = () => {
+    this.props.navigation.goBack();
+    Alert.alert(
+      'Success',
+      'Success saving data'
+    );
+  };
+
+  handleFailure = (err) => {
+    Alert.alert(
+      'Error',
+      'Error saving data'
+    );
+  };
+
   handleSave = () => {
-    const { createRelative, navigation } = this.props;
+    const { createRelative } = this.props;
     const { fullName } = this.state;
     createRelative({
       fullName,
-    });
-    .then(() => {
-      navigation.goBack();
-      Alert.alert(
-        'Success',
-        'Success saving data'
-      );
-    });
-    // .catch(() => {
-    //  Alert.alert(
-    //    'Error',
-    //    'Error saving data'
-    //  );
-    // });
+    }, this.handleSuccess, this.handleFailure)
   };
 
   render() {
