@@ -29,9 +29,7 @@ export default class PouchDBStore {
   };
 
   updateRelative = (item) => {
-    const { _id, _rev, ...data } = item;
-
-    return db.put(data, _id, _rev);
+    return db.put(item);
   };
 
   deleteRelative = (data) => {

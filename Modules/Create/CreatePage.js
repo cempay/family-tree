@@ -19,7 +19,8 @@ const filteredConnectedRelatives = (relatives, relationType) => (relatives || []
       case ERelativeRelationType.mother:
         return !mother;
       default:
-        throw new Error('Invalid relative relation type!');
+        return null;
+      //  throw new Error('Invalid relative relation type!');
     }
   });
 
@@ -45,7 +46,8 @@ class CreatePage extends React.Component {
 
     if (!isEmpty(relatives)) {
       form.relationType = filteredRelationTypeOptions(form.sex)[0].code;
-      form.relativeId = filteredConnectedRelatives(relatives, form.relationType)[0]._id;
+      const connectedRelative = filteredConnectedRelatives(relatives, form.relationType);
+      form.relativeId = connectedRelative && connectedRelative[0] && connectedRelative[0]._id;
     }
 
     this.state = {

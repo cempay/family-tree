@@ -24,7 +24,8 @@ export const createRelative = (data) => {
           return response;
         }
         const { relatives } = getState();
-        const connectedRelative = relatives.find(({ relativeId }) => relativeId === data._id);
+        const connectedRelative = relatives.find(({ _id }) => _id === data.relativeId);
+        debugger;
         switch (data.relationType) {
           case ERelativeRelationType.father:
             connectedRelative.father = data._id;
