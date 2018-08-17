@@ -5,8 +5,8 @@ import {
   View, TextInput, Switch, Picker, Button, Alert,
 } from 'react-native';
 import { createRelative } from '../../actions/relativesActions';
-import { RelativeRelationOptions } from '../../constants/relativesConstants';
-import { isNil } from '../../Services/util';
+import { ERelativeRelationType, RelativeRelationTypeOptions } from '../../constants/relativesConstants';
+import { isNil, isEmpty } from '../../Services/util';
 
 class CreatePage extends React.Component {
   static navigationOptions = {
@@ -16,7 +16,7 @@ class CreatePage extends React.Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     createRelative: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -24,6 +24,8 @@ class CreatePage extends React.Component {
       form: {
         fullName: '',
         sex: null,
+        relativeType: null,
+        relativeId: null,
       },
     };
   }
@@ -45,7 +47,13 @@ class CreatePage extends React.Component {
 
   handleSave = () => {
     const { form } = this.state;
-    this.props.createRelative(form, this.handleSuccess, this.handleFailure);
+    this.props.createRelative(
+      {
+        ...form,
+      },
+      this.handleSuccess,
+      this.handleFailure
+    );
   };
 
   handleFieldChange = (field, value) => {
@@ -65,12 +73,18 @@ class CreatePage extends React.Component {
     this.handleFieldChange('sex', sex);
   };
 
-  handleRelationChange = (relation) => {
-    this.handleFieldChange('relation', relation);
+  handleRelationTypeChange = (relationType) => {
+    this.handleFieldChange('relationType', relationType);
+  };
+
+  handleRelativeIdChange = (relativeId) => {
+    this.handleFieldChange('relativeId', relativeId);
   };
 
   render() {
-    const { form: {sex, relation} } = this.state;
+    const {relatives} = this.props;
+    const { form: { sex, relationType, relativeId } } = this.state;
+    const emptyRelatives = isEmpty(relatives);
     return (
       <View style={{ padding: 10 }}>
         <TextInput
@@ -82,18 +96,37 @@ class CreatePage extends React.Component {
           value={sex}
           onValueChange={this.handleSexChange}
         />
-        <Picker
-          selectedValue={relation}
-          style={{ height: 50, width: 100 }}
-          onValueChange={this.handleRelationChange}
-        >
-          {RelativeRelationOptions
-            .filter(option => isNil(sex) || option.sex === sex)
-            .map(({ code, label }) => (
-              <Picker.Item key={code} label={label} value={code} />
-            ))
-          }
-        </Picker>
+        {!emptyRelatives && (
+          <Picker
+            selectedValue={relationType}
+            style={{ height: 50, width: 100 }}
+            onValueChange={this.handleRelationTypeChange}
+          >
+            {RelativeRelationTypeOptions
+              .filter(option => isNil(sex) || option.sex === sex)
+              .map(({ code, label }) => (
+                <Picker.Item key={code} label={label} value={code} />
+              ))
+            }
+          </Picker>
+        )}
+        {!emptyRelatives && (
+          <Picker
+            selectedValue={relativeId}
+            style={{ height: 50, width: 100 }}
+            onValueChange={this.handleRelativeIdChange}
+            enabled={relationType && !isNil(relationType)}
+          >
+            {relatives
+              .filter(({doc: {_id}}) => {
+                return true;
+              })
+              .map(({doc: { _id, fullName }}) => (
+                <Picker.Item key={_id} label={fullName} value={_id} />
+              ))
+            }
+          </Picker>
+        )}
         <Button
           title="Save"
           onPress={this.handleSave}
@@ -112,8 +145,12 @@ class CreatePage extends React.Component {
 //  },
 // });
 
+const mapStateToProps = state => ({
+  relatives: state.relatives,
+});
+
 const mapDispatchToProps = {
   createRelative,
 };
 
-export default connect(null, mapDispatchToProps)(CreatePage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePage);

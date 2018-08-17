@@ -24,7 +24,7 @@ class RelativesTreePage extends React.Component {
       <View style={{ padding: 10 }}>
         {(relatives || []).map(({ doc }) => (
           <Text key={doc._id}>
-            {Object.keys(doc).map((key) => `${doc[key]} `)}
+            {Object.keys(doc).map(key => `${doc[key]} `)}
           </Text>
         ))}
       </View>

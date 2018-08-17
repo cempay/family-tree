@@ -36,6 +36,10 @@ export default class PouchDBStore {
     db.remove(data);
   };
 
+  deleteAllRelatives = () => {
+    db.destroy();
+  };
+
   getRelativeList = () => {
     db.allDocs({ include_docs: true, descending: true }, (err, doc) => {
       this.onRefresh(doc.rows);

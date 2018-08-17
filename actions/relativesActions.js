@@ -24,6 +24,13 @@ export const deleteRelative = (data) => {
   };
 };
 
+export const deleteAllRelatives = () => {
+  store.deleteAllRelatives();
+  return {
+    type: 'DELETE_ALL_RELATIVES',
+  };
+};
+
 export const getRelativeListRequest = () => {
   store.getRelativeList();
   return {

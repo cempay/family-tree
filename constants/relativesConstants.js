@@ -1,17 +1,17 @@
-export const ERelativeRelation = {
+export const ERelativeRelationType = {
   father: 'father',
   mother: 'mother',
 };
 
-export const RelativeRelationOptions = [
+export const RelativeRelationTypeOptions = [
   {
-    code: ERelativeRelation.father,
-    label: 'father',
+    code: ERelativeRelationType.father,
+    label: 'isFatherOf',
     sex: true,
   },
   {
-    code: ERelativeRelation.mother,
-    label: 'mother',
+    code: ERelativeRelationType.mother,
+    label: 'isMotherOf',
     sex: false,
   },
 ];
