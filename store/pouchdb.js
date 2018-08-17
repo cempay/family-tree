@@ -18,18 +18,20 @@ export default class PouchDBStore {
     }).on('change', this.getRelativeList);
   }
 
-  createRelative = (item, onSuccess, onFailure) => {
+  createRelative = (item) => {
     const data = {
       _id: uuid.v1(),
       ...item,
     };
-    db.put(data, (err) => {
-      if (err) {
-        onFailure && onFailure(err);
-      } else {
-        onSuccess && onSuccess();
-      }
-    });
+    const result = db.put(data);
+
+    return result;
+  };
+
+  updateRelative = (item) => {
+    const { _id, _rev, ...data } = item;
+
+    return db.put(data, _id, _rev);
   };
 
   deleteRelative = (data) => {
@@ -41,8 +43,10 @@ export default class PouchDBStore {
   };
 
   getRelativeList = () => {
-    db.allDocs({ include_docs: true, descending: true }, (err, doc) => {
-      this.onRefresh(doc.rows);
+    db.allDocs({ include_docs: true, descending: true }, (err, response) => {
+      const docs = ((response || {}).rows || []).map(({ doc }) => doc);
+
+      this.onRefresh(docs);
     });
   };
 }

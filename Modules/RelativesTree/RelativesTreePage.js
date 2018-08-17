@@ -11,20 +11,19 @@ class RelativesTreePage extends React.Component {
 
   static propTypes = {
     relatives: PropTypes.array.isRequired,
-    getRelativeListRequest: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
-    this.props.getRelativeListRequest();
+    getRelativeListRequest();
   }
 
   render() {
     const { relatives } = this.props;
     return (
       <View style={{ padding: 10 }}>
-        {(relatives || []).map(({ doc }) => (
-          <Text key={doc._id}>
-            {Object.keys(doc).map(key => `${doc[key]} `)}
+        {(relatives || []).map(item => (
+          <Text key={item._id}>
+            {Object.keys(item).map(key => `${item[key]} `)}
           </Text>
         ))}
       </View>
@@ -36,8 +35,4 @@ const mapStateToProps = state => ({
   relatives: state.relatives,
 });
 
-const mapDispatchToProps = {
-  getRelativeListRequest,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RelativesTreePage);
+export default connect(mapStateToProps)(RelativesTreePage);

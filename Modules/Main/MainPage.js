@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Button, View, StyleSheet } from 'react-native';
-import { deleteAllRelatives } from '../../actions/relativesActions';
+import { deleteAllRelatives, getRelativeListRequest } from '../../actions/relativesActions';
 
-class MainPage extends React.Component {
+export default class MainPage extends React.Component {
   static navigationOptions = {
     title: 'Menu',
   };
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    deleteAllRelatives: PropTypes.func.isRequired,
   };
+
+  componentWillMount() {
+    getRelativeListRequest();
+  }
 
   render() {
     const { navigation: { navigate } } = this.props;
@@ -33,19 +35,13 @@ class MainPage extends React.Component {
         <Button
           style={styles.action}
           title="Delete all relatives..."
-          onPress={() => this.props.deleteAllRelatives()
+          onPress={() => deleteAllRelatives()
           }
         />
       </View>
     );
   }
 }
-
-const mapDispatchToProps = {
-  deleteAllRelatives,
-};
-
-export default connect(null, mapDispatchToProps)(MainPage);
 
 const styles = StyleSheet.create({
   actionPanel: {

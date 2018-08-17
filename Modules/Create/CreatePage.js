@@ -8,6 +8,21 @@ import { createRelative } from '../../actions/relativesActions';
 import { ERelativeRelationType, RelativeRelationTypeOptions } from '../../constants/relativesConstants';
 import { isNil, isEmpty } from '../../Services/util';
 
+const filteredRelationTypeOptions = sex => RelativeRelationTypeOptions
+  .filter(option => isNil(sex) || option.sex === sex);
+
+const filteredConnectedRelatives = (relatives, relationType) => (relatives || [])
+  .filter(({ father, mother }) => {
+    switch (relationType) {
+      case ERelativeRelationType.father:
+        return !father;
+      case ERelativeRelationType.mother:
+        return !mother;
+      default:
+        throw new Error('Invalid relative relation type!');
+    }
+  });
+
 class CreatePage extends React.Component {
   static navigationOptions = {
     title: 'Create a relative',
@@ -15,18 +30,26 @@ class CreatePage extends React.Component {
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    createRelative: PropTypes.func.isRequired,
+    relatives: PropTypes.array.isRequired,
   };
 
   constructor(props) {
     super(props);
+    const { relatives } = this.props;
+    const form = {
+      fullName: '',
+      sex: true,
+      relationType: null,
+      relativeId: null,
+    };
+
+    if (!isEmpty(relatives)) {
+      form.relationType = filteredRelationTypeOptions(form.sex)[0].code;
+      form.relativeId = filteredConnectedRelatives(relatives, form.relationType)[0]._id;
+    }
+
     this.state = {
-      form: {
-        fullName: '',
-        sex: null,
-        relativeType: null,
-        relativeId: null,
-      },
+      form,
     };
   }
 
@@ -47,13 +70,15 @@ class CreatePage extends React.Component {
 
   handleSave = () => {
     const { form } = this.state;
-    this.props.createRelative(
-      {
-        ...form,
-      },
-      this.handleSuccess,
-      this.handleFailure
-    );
+    const data = {
+      ...form,
+      sex: !!form.sex,
+    };
+    const children = form.relativeId && [form.relativeId];
+    if (children) data.children = children;
+    createRelative(data)
+      .then(this.handleSuccess)
+      .catch(this.handleFailure);
   };
 
   handleFieldChange = (field, value) => {
@@ -82,7 +107,7 @@ class CreatePage extends React.Component {
   };
 
   render() {
-    const {relatives} = this.props;
+    const { relatives } = this.props;
     const { form: { sex, relationType, relativeId } } = this.state;
     const emptyRelatives = isEmpty(relatives);
     return (
@@ -99,11 +124,10 @@ class CreatePage extends React.Component {
         {!emptyRelatives && (
           <Picker
             selectedValue={relationType}
-            style={{ height: 50, width: 100 }}
+            style={{ height: 50, width: '100%' }}
             onValueChange={this.handleRelationTypeChange}
           >
-            {RelativeRelationTypeOptions
-              .filter(option => isNil(sex) || option.sex === sex)
+            {filteredRelationTypeOptions(sex)
               .map(({ code, label }) => (
                 <Picker.Item key={code} label={label} value={code} />
               ))
@@ -113,15 +137,12 @@ class CreatePage extends React.Component {
         {!emptyRelatives && (
           <Picker
             selectedValue={relativeId}
-            style={{ height: 50, width: 100 }}
+            style={{ height: 50, width: '100%' }}
             onValueChange={this.handleRelativeIdChange}
             enabled={relationType && !isNil(relationType)}
           >
-            {relatives
-              .filter(({doc: {_id}}) => {
-                return true;
-              })
-              .map(({doc: { _id, fullName }}) => (
+            {filteredConnectedRelatives(relatives, relationType)
+              .map(({ _id, fullName }) => (
                 <Picker.Item key={_id} label={fullName} value={_id} />
               ))
             }
@@ -149,8 +170,4 @@ const mapStateToProps = state => ({
   relatives: state.relatives,
 });
 
-const mapDispatchToProps = {
-  createRelative,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePage);
+export default connect(mapStateToProps)(CreatePage);
