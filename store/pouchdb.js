@@ -28,16 +28,19 @@ export default class PouchDBStore {
     return result;
   };
 
-  updateRelative = (item) => {
-    return db.put(item);
-  };
+  updateRelative = item => db.put(item);
 
   deleteRelative = (data) => {
-    db.remove(data);
+    return db.remove(data);
   };
 
   deleteAllRelatives = () => {
-    db.destroy();
+    db.allDocs({ include_docs: true, descending: true }, (err, response) => {
+      const docsPromises = ((response || {}).rows || []).map(({ doc }) => this.deleteRelative(doc));
+      return Promise.all(docsPromises).then(() => {
+        this.onRefresh([]);
+      });
+    });
   };
 
   getRelativeList = () => {

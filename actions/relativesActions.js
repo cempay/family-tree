@@ -17,29 +17,27 @@ export const createRelative = (data) => {
   dispatch({
     type: 'CREATE_RELATIVE',
   });
-  return dispatch((dispatch, getState) => {
-    return store.createRelative(data)
-      .then((response) => {
-        if (!data.relativeId) {
-          return response;
-        }
-        const { relatives } = getState();
-        const connectedRelative = relatives.find(({ _id }) => _id === data.relativeId);
-        debugger;
-        switch (data.relationType) {
-          case ERelativeRelationType.father:
-            connectedRelative.father = data._id;
-            break;
-          case ERelativeRelationType.mother:
-            connectedRelative.mother = data._id;
-            break;
-          default:
-            throw new Error('Invalid relative relation type!');
-        }
+  return dispatch((_, getState) => store.createRelative(data)
+    .then((response) => {
+      if (!data.relativeId) {
+        return response;
+      }
+      const { relatives } = getState();
+      const connectedRelative = relatives.find(({ _id }) => _id === data.relativeId);
 
-        return updateRelative(connectedRelative);
-      });
-  });
+      switch (data.relationType) {
+        case ERelativeRelationType.father:
+          connectedRelative.father = data._id;
+          break;
+        case ERelativeRelationType.mother:
+          connectedRelative.mother = data._id;
+          break;
+        default:
+          throw new Error('Invalid relative relation type!');
+      }
+
+      return updateRelative(connectedRelative);
+    }));
 };
 
 export const updateRelative = (data) => {
