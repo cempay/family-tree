@@ -30,6 +30,7 @@ class RelativesTreePage extends React.Component {
   };
 
   getOlderGeneration = (currentGeneration = []) => {
+    const {relatives} = this.props;
     const result = [];
     console.debug(currentGeneration, '----------------');
     let existRealRelatives = false;
@@ -39,13 +40,13 @@ class RelativesTreePage extends React.Component {
       if (fake || isEmpty(father)) {
         result.push(FAKE_RELATIVE);
       } else {
-        result.push(father);
+        result.push(relatives.find(({_id}) => _id === father);
         existRealRelatives = true;
       }
       if (fake || isEmpty(mother)) {
         result.push(FAKE_RELATIVE);
       } else {
-        result.push(mother);
+        result.push(relatives.find(({_id}) => _id === mother);
         existRealRelatives = true;
       }
     });
@@ -63,6 +64,7 @@ class RelativesTreePage extends React.Component {
         currentGeneration = this.getOlderGeneration(currentGeneration);
       }
     }
+    console.debug(result, '==========');
     return result;
   };
 
@@ -81,9 +83,9 @@ class RelativesTreePage extends React.Component {
           {generationList.map((generation, index) => (
             <View style={styles.generation} key={index}>
               {generation.map(({ fullName }, index2) => (
-                <View style={styles.relative} key={index2}>
-                  {fullName || 'fake'}
-                </View>
+                <Text style={styles.relative} key={index2}>
+                  {fullName || ''}
+                </Text>
               ))}
             </View>
           ))}

@@ -27,10 +27,10 @@ export const createRelative = (data) => {
 
       switch (data.relationType) {
         case ERelativeRelationType.father:
-          connectedRelative.father = data._id;
+          connectedRelative.father = response.id;
           break;
         case ERelativeRelationType.mother:
-          connectedRelative.mother = data._id;
+          connectedRelative.mother = response.id;
           break;
         default:
           throw new Error('Invalid relative relation type!');
