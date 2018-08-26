@@ -15,12 +15,12 @@
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "react-native-scripts start",
+    "eslint": "eslint */**/*.js -- --fix",
+    "start": "npm run eslint && react-native-scripts start",
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
-    "test": "jest",
-    "eslint": "eslint */**/*.js"
+    "test": "jest"
   },
   "jest": {
     "preset": "jest-expo"

@@ -30,9 +30,7 @@ export default class PouchDBStore {
 
   updateRelative = item => db.put(item);
 
-  deleteRelative = (data) => {
-    return db.remove(data);
-  };
+  deleteRelative = data => db.remove(data);
 
   deleteAllRelatives = () => {
     db.allDocs({ include_docs: true, descending: true }, (err, response) => {
