@@ -1,13 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View, ScrollView, Text, StyleSheet,
+} from 'react-native';
 import { getRelativeListRequest } from '../../actions/relativesActions';
 import { isEmpty } from '../../Services/util';
 
 const FAKE_RELATIVE = {
   fake: true,
 };
+
+const RELATIVE_BLOCK_WIDTH = 150;
+const RELATIVE_BLOCK_LAG = 20;
 
 class RelativesTreePage extends React.Component {
   static navigationOptions = {
@@ -68,28 +73,32 @@ class RelativesTreePage extends React.Component {
     return result;
   };
 
+  getWidth = (generationList) => {
+    const generationsCount = generationList.length;
+    const k = 2 ** (generationsCount - 1);
+    const width = k * (RELATIVE_BLOCK_WIDTH) + (k - 1) * (RELATIVE_BLOCK_LAG);
+    console.debug('width=', width);
+    return width;
+  };
+
   render() {
-    const { relatives } = this.props;
+    // const { relatives } = this.props;
     const generationList = this.getGenerationList();
-    // const generationsCount = generationList.length;
     return (
       <View style={{ padding: 10 }}>
-        {(relatives || []).map(item => (
-          <Text key={item._id}>
-            {Object.keys(item).map(key => `${item[key]} `)}
-          </Text>
-        ))}
-        <View style={styles.generationList}>
-          {generationList.map((generation, index) => (
-            <View style={styles.generation} key={index}>
-              {generation.map(({ fullName }, index2) => (
-                <Text style={styles.relative} key={index2} numberOfLines={1} ellipsizeMode='tail'>
-                  {fullName || ''}
-                </Text>
-              ))}
-            </View>
-          ))}
-        </View>
+        <ScrollView horizontal={true} style={{ width: this.getWidth(generationList) }}>
+          <View style={{ flexDirection: 'column', width: this.getWidth(generationList) }}>
+            {generationList.map((generation, index) => (
+              <View style={styles.generation} key={index}>
+                {generation.map(({ fullName }, index2) => (
+                  <Text style={styles.relative} key={index2} numberOfLines={1} ellipsizeMode="tail">
+                    {fullName || ''}
+                  </Text>
+                ))}
+              </View>
+            ))}
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -114,7 +123,7 @@ const styles = StyleSheet.create({
     // marginBottom: 10,
   },
   relative: {
-    width: 150,
+    width: RELATIVE_BLOCK_WIDTH,
     backgroundColor: 'yellow',
     // marginBottom: 10,
   },
