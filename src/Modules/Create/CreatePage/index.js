@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 import {
   View, TextInput, Switch, Picker, Button, Alert,
 } from 'react-native';
-import { createRelative } from '../../actions/relativesActions';
-import { ERelativeRelationType, RelativeRelationTypeOptions } from '../../constants/relativesConstants';
-import { isNil, isEmpty } from '../../Services/util';
+import { createRelative } from '../../../actions/relativesActions';
+import { ERelativeRelationType, RelativeRelationTypeOptions } from '../../../constants/relativesConstants';
+import { isNil, isEmpty } from '../../../Services/util';
+/* eslint-disable no-unused-vars */
+import styles from './styles';
+/* eslint-enable no-unused-vars */
 
 const filteredRelationTypeOptions = sex => RelativeRelationTypeOptions
   .filter(option => isNil(sex) || option.sex === sex);
@@ -158,15 +161,6 @@ class CreatePage extends React.Component {
     );
   }
 }
-
-// const styles = StyleSheet.create({
-//  container: {
-//    flex: 1,
-//    backgroundColor: '#fff',
-//    alignItems: 'center',
-//    justifyContent: 'center',
-//  },
-// });
 
 const mapStateToProps = state => ({
   relatives: state.relatives,

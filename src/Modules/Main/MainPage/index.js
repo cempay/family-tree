@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, View, StyleSheet } from 'react-native';
-import { deleteAllRelatives, getRelativeListRequest } from '../../actions/relativesActions';
+import { Button, View } from 'react-native';
+import { deleteAllRelatives, getRelativeListRequest } from '../../../actions/relativesActions';
+import styles from './styles';
 
 export default class MainPage extends React.Component {
   static navigationOptions = {
@@ -42,16 +43,3 @@ export default class MainPage extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  actionPanel: {
-    // flex: 1,
-    // flexDirection: 'row',
-    // justifyContent: 'space-between',
-    // alignItems: 'center',
-  },
-  action: {
-    // width: '100%',
-    // marginBottom: 10,
-  },
-});

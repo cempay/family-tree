@@ -2,16 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  View, ScrollView, Text, StyleSheet,
+  View, Text, ScrollView,
 } from 'react-native';
-import { getRelativeListRequest } from '../../actions/relativesActions';
-import { isEmpty } from '../../Services/util';
+import { getRelativeListRequest } from '../../../actions/relativesActions';
+import { isEmpty } from '../../../Services/util';
+import { RELATIVE_BLOCK_WIDTH } from '../relativesTreeConstants';
+import styles from './styles';
 
 const FAKE_RELATIVE = {
   fake: true,
 };
 
-const RELATIVE_BLOCK_WIDTH = 150;
 const RELATIVE_BLOCK_LAG = 20;
 
 class RelativesTreePage extends React.Component {
@@ -86,7 +87,7 @@ class RelativesTreePage extends React.Component {
     const generationList = this.getGenerationList();
     return (
       <View style={{ padding: 10 }}>
-        <ScrollView horizontal={true} style={{ width: this.getWidth(generationList) }}>
+        <ScrollView horizontal style={{ width: this.getWidth(generationList) }}>
           <View style={{ flexDirection: 'column', width: this.getWidth(generationList) }}>
             {generationList.map((generation, index) => (
               <View style={styles.generation} key={index}>
@@ -109,22 +110,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(RelativesTreePage);
-
-const styles = StyleSheet.create({
-  generationList: {
-    // flex: 1,
-    flexDirection: 'column',
-    // justifyContent: 'space-between',
-    // alignItems: 'center',
-  },
-  generation: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    // marginBottom: 10,
-  },
-  relative: {
-    width: RELATIVE_BLOCK_WIDTH,
-    backgroundColor: 'yellow',
-    // marginBottom: 10,
-  },
-});
