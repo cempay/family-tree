@@ -4,10 +4,10 @@ import {
   createStackNavigator,
 } from 'react-navigation';
 import { View } from 'react-native';
-import store from './store/createReduxStore';
-import MainPage from './Modules/Main/MainPage';
-import CreatePage from './Modules/Create/CreatePage';
-import RelativesTreePage from './Modules/RelativesTree/RelativesTreePage';
+import store from './src/store/createReduxStore';
+import MainPage from './src/Modules/Main/MainPage';
+import CreatePage from './src/Modules/Create/CreatePage';
+import RelativesTreePage from './src/Modules/RelativesTree/RelativesTreePage';
 
 const Stack = createStackNavigator({
   Main: { screen: MainPage },
