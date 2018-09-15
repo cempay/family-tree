@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { RELATIVE_BLOCK_WIDTH } from '../relativesTreeConstants';
+
+export const RELATIVE_BLOCK_WIDTH = 150;
 
 export default StyleSheet.create({
   generationList: {

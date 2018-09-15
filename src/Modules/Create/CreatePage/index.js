@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  View, TextInput, Switch, Picker, Button, Alert,
+  View, Text, TextInput, Switch, Picker, Button, Alert,
 } from 'react-native';
 import { createRelative } from '../../../actions/relativesActions';
 import { ERelativeRelationType, RelativeRelationTypeOptions } from '../../../constants/relativesConstants';
@@ -122,10 +122,15 @@ class CreatePage extends React.Component {
           placeholder="Lastname Firstname Middlename"
           onChangeText={this.handleFullNameChange}
         />
-        <Switch
-          value={sex}
-          onValueChange={this.handleSexChange}
-        />
+        <View>
+          <Text>
+            is Male
+          </Text>
+          <Switch
+            value={sex}
+            onValueChange={this.handleSexChange}
+          />
+        </View>
         {!emptyRelatives && (
           <Picker
             selectedValue={relationType}

@@ -6,8 +6,7 @@ import {
 } from 'react-native';
 import { getRelativeListRequest } from '../../../actions/relativesActions';
 import { isEmpty } from '../../../Services/util';
-import { RELATIVE_BLOCK_WIDTH } from '../relativesTreeConstants';
-import styles from './styles';
+import styles, {RELATIVE_BLOCK_WIDTH} from './styles';
 
 const FAKE_RELATIVE = {
   fake: true,
