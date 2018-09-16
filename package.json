@@ -15,9 +15,9 @@
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "eslint": "eslint */**/*.js",
-    "eslintFix": "npm run eslint -- --fix",
-    "start": "npm run eslintFix && react-native-scripts start",
+    "lint": "eslint */**/*.js",
+    "lint:fix": "npm run lint -- --fix",
+    "start": "npm run lint:fix && react-native-scripts start",
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
