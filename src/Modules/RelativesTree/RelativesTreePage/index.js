@@ -8,6 +8,7 @@ import { getRelativeListRequest } from '../../../actions/relativesActions';
 import { isEmpty } from '../../../Services/util';
 import styles, { RELATIVE_BLOCK_WIDTH, RELATIVE_BLOCK_LAG } from './styles';
 import RelativeItem from './relativeItem';
+import RelativesTreeMenu from '../RelativesTreeMenu';
 
 const FAKE_RELATIVE = {
   fake: true,
@@ -20,6 +21,7 @@ class RelativesTreePage extends React.Component {
 
   static propTypes = {
     relatives: PropTypes.array.isRequired,
+    navigation: PropTypes.object.isRequired,
   };
 
   componentWillMount() {
@@ -81,10 +83,11 @@ class RelativesTreePage extends React.Component {
   };
 
   render() {
-    // const { relatives } = this.props;
+    const { navigation } = this.props;
     const generationList = this.getGenerationList();
     return (
       <View style={{ padding: 10 }}>
+        <RelativesTreeMenu navigation={navigation} />
         <ScrollView horizontal>
           <View style={{ flexDirection: 'column', width: this.getWidth(generationList) }}>
             {generationList.map((generation, index) => (
