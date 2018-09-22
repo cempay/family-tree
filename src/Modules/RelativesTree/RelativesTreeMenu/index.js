@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TopMenu from '../../../components/topMenu';
+import { deleteAllRelatives } from '../../../actions/relativesActions';
 
 class RelativesTreeMenu extends React.Component {
     static propTypes = {
@@ -23,6 +24,10 @@ class RelativesTreeMenu extends React.Component {
         });
       }
       return [
+        {
+          title: 'Clear',
+          onClick: deleteAllRelatives,
+        },
         ...additionalButtons,
         {
           title: 'Add',

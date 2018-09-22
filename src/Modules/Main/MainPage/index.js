@@ -4,6 +4,7 @@ import { Button, View } from 'react-native';
 import { deleteAllRelatives, getRelativeListRequest } from '../../../actions/relativesActions';
 import styles from './styles';
 
+/** @deprecated Not used, RelativesTreePage is initial page now. */
 export default class MainPage extends React.Component {
   static navigationOptions = {
     title: 'Menu',

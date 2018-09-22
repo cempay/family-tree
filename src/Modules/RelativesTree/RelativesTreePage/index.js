@@ -9,6 +9,7 @@ import { isEmpty } from '../../../Services/util';
 import styles, { RELATIVE_BLOCK_WIDTH, RELATIVE_BLOCK_LAG } from './styles';
 import RelativeItem from './relativeItem';
 import RelativesTreeMenu from '../RelativesTreeMenu';
+import EmptyRelativesTree from './emptyRelativesTree';
 
 const FAKE_RELATIVE = {
   fake: true,
@@ -88,17 +89,21 @@ class RelativesTreePage extends React.Component {
     return (
       <View style={{ padding: 10 }}>
         <RelativesTreeMenu navigation={navigation} />
-        <ScrollView horizontal>
-          <View style={{ flexDirection: 'column', width: this.getWidth(generationList) }}>
-            {generationList.map((generation, index) => (
-              <View style={styles.generation} key={index}>
-                {generation.map((relative, index2) => (
-                  <RelativeItem relative={relative} key={index2} />
+        {isEmpty(generationList)
+          ? <EmptyRelativesTree /> : (
+            <ScrollView horizontal>
+              <View style={{ flexDirection: 'column', width: this.getWidth(generationList) }}>
+                {generationList.map((generation, index) => (
+                  <View style={styles.generation} key={index}>
+                    {generation.map((relative, index2) => (
+                      <RelativeItem relative={relative} key={index2} />
+                    ))}
+                  </View>
                 ))}
               </View>
-            ))}
-          </View>
-        </ScrollView>
+            </ScrollView>
+          )
+        }
       </View>
     );
   }
