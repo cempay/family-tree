@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  View, ScrollView, Text, TouchableOpacity,
+  View, ScrollView, Text,
 } from 'react-native';
-import { getRelativeListRequest, selectRelative, clearRelativeSelection } from '../../../actions/relativesActions';
+import { getRelativeListRequest } from '../../../actions/relativesActions';
 import { isEmpty } from '../../../Services/util';
 import styles, { RELATIVE_BLOCK_WIDTH, RELATIVE_BLOCK_LAG } from './styles';
 import RelativeItem from './relativeItem';
