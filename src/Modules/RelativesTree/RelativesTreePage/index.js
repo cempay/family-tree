@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  View, ScrollView,
+  View, ScrollView, Text,
 } from 'react-native';
 import { getRelativeListRequest } from '../../../actions/relativesActions';
 import { isEmpty } from '../../../Services/util';
@@ -83,6 +83,24 @@ class RelativesTreePage extends React.Component {
     return width;
   };
 
+  renderGeneration = (generation) => {
+    const items = [];
+    let prevRelative;
+    generation.forEach((relative, index) => {
+      if (prevRelative && !isEmpty(prevRelative.children) && !isEmpty(relative.children)
+        && prevRelative.children[0] === relative.children[0]) {
+        items.push(
+          <Text key={`heart${index}`}>
+          ♥
+          </Text>,
+        );
+      }
+      items.push(<RelativeItem relative={relative} key={index} />);
+      prevRelative = relative;
+    });
+    return items;
+  };
+
   render() {
     const { navigation } = this.props;
     const generationList = this.getGenerationList();
@@ -95,9 +113,7 @@ class RelativesTreePage extends React.Component {
               <View style={{ flexDirection: 'column', width: this.getWidth(generationList) }}>
                 {generationList.map((generation, index) => (
                   <View style={styles.generation} key={index}>
-                    {generation.map((relative, index2) => (
-                      <RelativeItem relative={relative} key={index2} />
-                    ))}
+                    {this.renderGeneration(generation)}
                   </View>
                 ))}
               </View>

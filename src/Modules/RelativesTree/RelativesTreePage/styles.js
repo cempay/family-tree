@@ -10,10 +10,10 @@ export default StyleSheet.create({
   generation: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    marginTop: 30,
   },
   relative: {
     width: RELATIVE_BLOCK_WIDTH,
-    marginTop: 30,
     backgroundColor: 'yellow',
   },
   relativeText: {
