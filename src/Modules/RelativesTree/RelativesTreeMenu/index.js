@@ -1,33 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { isEmpty } from '../../../Services/util';
 import TopMenu from '../../../components/topMenu';
 import { deleteAllRelatives } from '../../../actions/relativesActions';
 
 class RelativesTreeMenu extends React.Component {
     static propTypes = {
-      selectedRelative: PropTypes.string,
+      selectedId: PropTypes.string,
+      relatives: PropTypes.array.isRequired,
       navigation: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
-      selectedRelative: null,
+      selectedId: null,
     };
 
     getMenuConfig = () => {
-      const { selectedRelative, navigation: { navigate } } = this.props;
+      const { selectedId, navigation: { navigate }, relatives } = this.props;
       const additionalButtons = [];
-      if (selectedRelative) {
+      if (!isEmpty(relatives)) {
+        additionalButtons.push({
+          title: 'Clear',
+          onClick: deleteAllRelatives,
+        });
+      }
+      if (selectedId) {
         additionalButtons.push({
           title: 'Edit',
           onClick: () => {},
         });
+        const selectedRelative = isEmpty(relatives)
+          ? null
+          : relatives.find(({ _id }) => _id === selectedId);
+        if (selectedRelative && isEmpty(selectedRelative.children)) {
+          additionalButtons.push({
+            title: 'Del',
+            onClick: () => {},
+          });
+        }
       }
       return [
-        {
-          title: 'Clear',
-          onClick: deleteAllRelatives,
-        },
         ...additionalButtons,
         {
           title: 'Add',
@@ -44,7 +57,8 @@ class RelativesTreeMenu extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  selectedRelative: state.relatives.selectedId,
+  selectedId: state.relatives.selectedId,
+  relatives: state.relatives.list,
 });
 
 export default connect(mapStateToProps)(RelativesTreeMenu);
