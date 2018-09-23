@@ -44,8 +44,7 @@ class RelativesTreeMenu extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  // TODO Save selected relative to redux-store
-  selectedRelative: 'todo' || state.selectedRelative,
+  selectedRelative: state.relatives.selectedId,
 });
 
 export default connect(mapStateToProps)(RelativesTreeMenu);

@@ -168,7 +168,7 @@ class CreatePage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  relatives: state.relatives,
+  relatives: state.relatives.list,
 });
 
 export default connect(mapStateToProps)(CreatePage);

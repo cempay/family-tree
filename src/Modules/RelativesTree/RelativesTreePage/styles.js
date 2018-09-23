@@ -16,6 +16,10 @@ export default StyleSheet.create({
     width: RELATIVE_BLOCK_WIDTH,
     backgroundColor: 'yellow',
   },
+  relativeActive: {
+    width: RELATIVE_BLOCK_WIDTH,
+    backgroundColor: 'blue',
+  },
   relativeText: {
   },
 });

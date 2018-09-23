@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  View, ScrollView, Text,
+  View, ScrollView, Text, TouchableOpacity,
 } from 'react-native';
-import { getRelativeListRequest } from '../../../actions/relativesActions';
+import { getRelativeListRequest, selectRelative, clearRelativeSelection } from '../../../actions/relativesActions';
 import { isEmpty } from '../../../Services/util';
 import styles, { RELATIVE_BLOCK_WIDTH, RELATIVE_BLOCK_LAG } from './styles';
 import RelativeItem from './relativeItem';
@@ -22,7 +22,12 @@ class RelativesTreePage extends React.Component {
 
   static propTypes = {
     relatives: PropTypes.array.isRequired,
+    selectedId: PropTypes.string,
     navigation: PropTypes.object.isRequired,
+  };
+
+  static defaultProps = {
+    selectedId: null,
   };
 
   componentWillMount() {
@@ -84,6 +89,7 @@ class RelativesTreePage extends React.Component {
   };
 
   renderGeneration = (generation) => {
+    const { selectedId } = this.props;
     const items = [];
     let prevRelative;
     generation.forEach((relative, index) => {
@@ -95,7 +101,13 @@ class RelativesTreePage extends React.Component {
           </Text>,
         );
       }
-      items.push(<RelativeItem relative={relative} key={index} />);
+      items.push(
+        <RelativeItem
+          key={index}
+          relative={relative}
+          active={selectedId === relative._id}
+        />,
+      );
       prevRelative = relative;
     });
     return items;
@@ -126,7 +138,8 @@ class RelativesTreePage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  relatives: state.relatives,
+  relatives: state.relatives.list,
+  selectedId: state.relatives.selectedId,
 });
 
 export default connect(mapStateToProps)(RelativesTreePage);

@@ -67,3 +67,16 @@ export const getRelativeListRequest = () => {
     type: 'RELATIVE_LIST_REQUEST',
   });
 };
+
+export const selectRelative = (id) => {
+  dispatch({
+    type: 'SELECT_RELATIVE',
+    payload: id,
+  });
+};
+
+export const clearRelativeSelection = () => {
+  dispatch({
+    type: 'CLEAR_RELATIVE_SELECTION',
+  });
+};
