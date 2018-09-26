@@ -7,8 +7,6 @@ export default (state = DEFAULT_STATE, { type, payload } = {}) => {
   switch (type) {
     case 'CREATE_RELATIVE':
     case 'UPDATE_RELATIVE':
-    case 'DELETE_RELATIVE':
-    case 'DELETE_ALL_RELATIVES':
     case 'RELATIVE_LIST_REQUEST':
 
       return state;
@@ -18,6 +16,8 @@ export default (state = DEFAULT_STATE, { type, payload } = {}) => {
     case 'SELECT_RELATIVE':
       return { ...state, selectedId: payload };
     case 'CLEAR_RELATIVE_SELECTION':
+    case 'DELETE_RELATIVE':
+    case 'DELETE_ALL_RELATIVES':
       return { ...state, selectedId: null };
     default:
       return state;
