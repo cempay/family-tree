@@ -15,7 +15,6 @@ export default class RelativeItem extends React.Component {
 
     handleRelativeSelectionToggle = () => {
       const { relative, active } = this.props;
-      console.log('handleRelativeSelectionToggle', relative, active);
       if (active) {
         clearRelativeSelection();
       } else {

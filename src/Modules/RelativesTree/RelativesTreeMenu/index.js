@@ -26,13 +26,13 @@ class RelativesTreeMenu extends React.Component {
         });
       }
       if (selectedId) {
-        additionalButtons.push({
-          title: 'Edit',
-          onClick: () => {},
-        });
         const selectedRelative = isEmpty(relatives)
           ? null
           : relatives.find(({ _id }) => _id === selectedId);
+        additionalButtons.push({
+          title: 'Edit',
+          onClick: () => navigate('Create', { editedRelative: selectedRelative }),
+        });
         if (selectedRelative && isEmpty(selectedRelative.children)) {
           additionalButtons.push({
             title: 'Del',

@@ -44,11 +44,9 @@ class RelativesTreePage extends React.Component {
   getOlderGeneration = (currentGeneration = []) => {
     const { relatives } = this.props;
     const result = [];
-    console.debug(currentGeneration, '----------------');
     let existRealRelatives = false;
     currentGeneration.forEach((relative) => {
       const { father, mother, fake } = relative;
-      console.debug(relative);
       if (fake || isEmpty(father)) {
         result.push(FAKE_RELATIVE);
       } else {
@@ -76,7 +74,6 @@ class RelativesTreePage extends React.Component {
         currentGeneration = this.getOlderGeneration(currentGeneration);
       }
     }
-    console.debug(result, '==========');
     return result;
   };
 
@@ -84,7 +81,6 @@ class RelativesTreePage extends React.Component {
     const generationsCount = generationList.length;
     const k = 2 ** (generationsCount - 1);
     const width = k * (RELATIVE_BLOCK_WIDTH) + (k - 1) * (RELATIVE_BLOCK_LAG);
-    console.debug('width=', width);
     return width;
   };
 
