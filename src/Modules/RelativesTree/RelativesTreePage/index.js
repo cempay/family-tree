@@ -46,6 +46,7 @@ class RelativesTreePage extends React.Component {
     const result = [];
     let existRealRelatives = false;
     currentGeneration.forEach((relative) => {
+      if (!relative) return;
       const { father, mother, fake } = relative;
       if (fake || isEmpty(father)) {
         result.push(FAKE_RELATIVE);
@@ -89,6 +90,7 @@ class RelativesTreePage extends React.Component {
     const items = [];
     let prevRelative;
     generation.forEach((relative, index) => {
+      if (!relative) return;
       if (prevRelative && !isEmpty(prevRelative.children) && !isEmpty(relative.children)
         && prevRelative.children[0] === relative.children[0]) {
         items.push(

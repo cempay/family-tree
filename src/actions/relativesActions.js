@@ -1,6 +1,7 @@
 import PouchDBStore from '../store/pouchdb';
 import reduxStore from '../store/createReduxStore';
 import { ERelativeRelationType } from '../constants/relativesConstants';
+import { isEmpty } from '../Services/util';
 
 const dispatch = reduxStore.dispatch;
 
@@ -49,10 +50,31 @@ export const updateRelative = (data) => {
 };
 
 export const deleteRelative = (data) => {
-  store.deleteRelative(data);
   dispatch({
     type: 'DELETE_RELATIVE',
   });
+  return dispatch((_, getState) => store.deleteRelative(data)
+    .then((response) => {
+      if (isEmpty(data.children)) {
+        return response;
+      }
+      const state = getState();
+      const { relatives: { list } } = state;
+      const child = list.find(({ _id }) => _id === data.children[0]);
+
+      switch (data.relationType) {
+        case ERelativeRelationType.father:
+          delete child.father;
+          break;
+        case ERelativeRelationType.mother:
+          delete child.mother;
+          break;
+        default:
+          throw new Error('Invalid relative relation type!');
+      }
+
+      return updateRelative(child);
+    }));
 };
 
 export const deleteAllRelatives = () => {

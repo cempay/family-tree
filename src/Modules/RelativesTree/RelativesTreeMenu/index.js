@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty } from '../../../Services/util';
 import TopMenu from '../../../components/topMenu';
-import { deleteAllRelatives } from '../../../actions/relativesActions';
+import { deleteRelative, deleteAllRelatives } from '../../../actions/relativesActions';
 
 class RelativesTreeMenu extends React.Component {
     static propTypes = {
@@ -33,10 +33,10 @@ class RelativesTreeMenu extends React.Component {
           title: 'Edit',
           onClick: () => navigate('Create', { editedRelative: selectedRelative }),
         });
-        if (selectedRelative && isEmpty(selectedRelative.children)) {
+        if (selectedRelative && !selectedRelative.father && !selectedRelative.mother) {
           additionalButtons.push({
             title: 'Del',
-            onClick: () => {},
+            onClick: () => { deleteRelative(selectedRelative); },
           });
         }
       }
