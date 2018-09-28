@@ -15,6 +15,8 @@ const FAKE_RELATIVE = {
   fake: true,
 };
 
+const ENABLE_HEART_SYMBOL = false;
+
 class RelativesTreePage extends React.Component {
   static navigationOptions = {
     title: 'Relatives tree',
@@ -85,23 +87,27 @@ class RelativesTreePage extends React.Component {
     return width;
   };
 
+  addHeartSymbol = (items, prevRelative, relative) => {
+    if (ENABLE_HEART_SYMBOL && prevRelative && !isEmpty(prevRelative.children)
+      && !isEmpty(relative.children) && prevRelative.children[0] === relative.children[0]) {
+      items.push(
+        <Text key={`heart${relative._id}`}>
+        ♥
+        </Text>,
+      );
+    }
+  };
+
   renderGeneration = (generation) => {
     const { selectedId } = this.props;
     const items = [];
     let prevRelative;
-    generation.forEach((relative, index) => {
+    generation.forEach((relative) => {
       if (!relative) return;
-      if (prevRelative && !isEmpty(prevRelative.children) && !isEmpty(relative.children)
-        && prevRelative.children[0] === relative.children[0]) {
-        items.push(
-          <Text key={`heart${index}`}>
-          ♥
-          </Text>,
-        );
-      }
+      this.addHeartSymbol(items, prevRelative, relative);
       items.push(
         <RelativeItem
-          key={index}
+          key={relative._id}
           relative={relative}
           active={selectedId === relative._id}
         />,
