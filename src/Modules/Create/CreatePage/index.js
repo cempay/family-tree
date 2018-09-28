@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 import {
   View, Text, TextInput, Switch, Picker, Button, Alert,
 } from 'react-native';
+import i18n from 'i18next';
 import { createRelative, updateRelative } from '../../../actions/relativesActions';
 import { ERelativeRelationType, RelativeRelationTypeOptions } from '../../../constants/relativesConstants';
 import { isNil, isEmpty } from '../../../Services/util';
-/* eslint-disable no-unused-vars */
 import styles from './styles';
-/* eslint-enable no-unused-vars */
 
 const filteredRelationTypeOptions = sex => RelativeRelationTypeOptions
-  .filter(option => isNil(sex) || option.sex === sex);
+  .filter(option => isNil(sex) || option.sex === sex)
+  .map(option => ({ ...option, label: i18n.t(option.label) }));
 
 const filteredConnectedRelatives = (relatives, relationType) => (relatives || [])
   .filter(({ father, mother }) => {
@@ -23,7 +23,6 @@ const filteredConnectedRelatives = (relatives, relationType) => (relatives || []
         return !mother;
       default:
         return null;
-      //  throw new Error('Invalid relative relation type!');
     }
   });
 
@@ -31,7 +30,7 @@ class CreatePage extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const editedRelative = navigation.getParam('editedRelative');
     return {
-      title: editedRelative ? 'Edit relative' : 'Create relative',
+      title: i18n.t(editedRelative ? 'form/title/edit' : 'form/title/create'),
     };
   };
 
@@ -74,19 +73,33 @@ class CreatePage extends React.Component {
   handleSuccess = () => {
     this.props.navigation.goBack();
     Alert.alert(
-      'Success',
-      'Success saving data',
+      '',
+      i18n.t('form/message/successSave'),
     );
   };
 
-  handleFailure = (err) => {
+  handleFailure = (error) => {
     Alert.alert(
-      'Error',
-      `Error saving data. ${err}`,
+      '',
+      i18n.t('form/message/failureSave', { error }),
     );
+  };
+
+  // TODO Add fields validation
+  checkForm = () => {
+    const { form } = this.state;
+    if (isEmpty(form.fullName)) return false;
+    return true;
   };
 
   handleSave = () => {
+    if (!this.checkForm()) {
+      Alert.alert(
+        '',
+        i18n.t('form/message/invalidForm'),
+      );
+      return;
+    }
     const { editedRelative } = this.props;
     const { form } = this.state;
     let data;
@@ -142,14 +155,14 @@ class CreatePage extends React.Component {
       <View style={{ padding: 10 }}>
         <TextInput
           style={{ height: 40 }}
-          placeholder="Lastname Firstname Middlename"
+          placeholder={i18n.t('form/fullName/placeholder')}
           onChangeText={this.handleFullNameChange}
           defaultValue={editedRelative && editedRelative.fullName}
         />
         {!editMode && (
-          <View>
+          <View style={styles.sex}>
             <Text>
-              is Male
+              {i18n.t('form/sex')}
             </Text>
             <Switch
               value={sex}
@@ -187,7 +200,8 @@ class CreatePage extends React.Component {
           </Picker>
         )}
         <Button
-          title={editedRelative ? 'Update' : 'Save'}
+          title={i18n.t(editedRelative ? 'actions/edit' : 'actions/save')}
+          style={styles.submit}
           onPress={this.handleSave}
         />
       </View>

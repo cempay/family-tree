@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   View, ScrollView, Text,
 } from 'react-native';
+import i18n from 'i18next';
 import { getRelativeListRequest } from '../../../actions/relativesActions';
 import { isEmpty } from '../../../Services/util';
 import styles, { RELATIVE_BLOCK_WIDTH, RELATIVE_BLOCK_LAG } from './styles';
@@ -18,9 +19,9 @@ const FAKE_RELATIVE = {
 const ENABLE_HEART_SYMBOL = false;
 
 class RelativesTreePage extends React.Component {
-  static navigationOptions = {
-    title: 'Relatives tree',
-  };
+  static navigationOptions = () => ({
+    title: i18n.t('tree/title'),
+  });
 
   static propTypes = {
     relatives: PropTypes.array.isRequired,

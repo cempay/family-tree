@@ -6,12 +6,12 @@ export const ERelativeRelationType = {
 export const RelativeRelationTypeOptions = [
   {
     code: ERelativeRelationType.father,
-    label: 'isFatherOf',
+    label: 'form/relativeType/father',
     sex: true,
   },
   {
     code: ERelativeRelationType.mother,
-    label: 'isMotherOf',
+    label: 'form/relativeType/mother',
     sex: false,
   },
 ];
