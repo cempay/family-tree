@@ -103,12 +103,12 @@ class RelativesTreePage extends React.Component {
     const { selectedId } = this.props;
     const items = [];
     let prevRelative;
-    generation.forEach((relative) => {
+    generation.forEach((relative, index) => {
       if (!relative) return;
       this.addHeartSymbol(items, prevRelative, relative);
       items.push(
         <RelativeItem
-          key={relative._id}
+          key={index}
           relative={relative}
           active={selectedId === relative._id}
         />,
