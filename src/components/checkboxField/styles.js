@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  submit: {
-    // TODO not work
-    marginTop: 40,
+  checkbox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 8,
   },
 });

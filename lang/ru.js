@@ -6,6 +6,8 @@ export default {
     'actions/clear': 'Очистить',
     'actions/save': 'Сохранить',
 
+    'validator/mandatoryField': 'Заполните это поле',
+
     'tree/title': 'Семейное дерево',
     'tree/emptyHint': 'Начните с добавления самого молодого вашего родственника, например c внука.',
 

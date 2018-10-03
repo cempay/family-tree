@@ -1,14 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 import {
-  View, Text, TextInput, Switch, Picker, Button, Alert,
+  View, Text, Switch, Picker, Button, Alert,
 } from 'react-native';
 import i18n from 'i18next';
+import TextField from '../../../components/textField';
 import { createRelative, updateRelative } from '../../../actions/relativesActions';
 import { ERelativeRelationType, RelativeRelationTypeOptions } from '../../../constants/relativesConstants';
 import { isNil, isEmpty } from '../../../Services/util';
+import Validator from '../../../Services/validator';
 import styles from './styles';
+
+const formSelector = formValueSelector('createForm');
 
 const filteredRelationTypeOptions = sex => RelativeRelationTypeOptions
   .filter(option => isNil(sex) || option.sex === sex)
@@ -38,37 +44,13 @@ class CreatePage extends React.Component {
     navigation: PropTypes.object.isRequired,
     relatives: PropTypes.array.isRequired,
     editedRelative: PropTypes.object,
+    relationType: PropTypes.string,
+    handleSumbit: PropTypes.func,
   };
 
   static defaultProps = {
     editedRelative: null,
   };
-
-  constructor(props) {
-    super(props);
-    const { relatives, editedRelative } = this.props;
-    let form;
-    if (editedRelative) {
-      form = editedRelative;
-    } else {
-      form = {
-        fullName: '',
-        sex: true,
-        relationType: null,
-        relativeId: null,
-      };
-
-      if (!isEmpty(relatives)) {
-        form.relationType = filteredRelationTypeOptions(form.sex)[0].code;
-        const connectedRelative = filteredConnectedRelatives(relatives, form.relationType);
-        form.relativeId = connectedRelative && connectedRelative[0] && connectedRelative[0]._id;
-      }
-    }
-
-    this.state = {
-      form,
-    };
-  }
 
   handleSuccess = () => {
     this.props.navigation.goBack();
@@ -85,14 +67,7 @@ class CreatePage extends React.Component {
     );
   };
 
-  // TODO Add fields validation
-  checkForm = () => {
-    const { form } = this.state;
-    if (isEmpty(form.fullName)) return false;
-    return true;
-  };
-
-  handleSave = () => {
+  handleSave = (values) => {
     if (!this.checkForm()) {
       Alert.alert(
         '',
@@ -101,19 +76,18 @@ class CreatePage extends React.Component {
       return;
     }
     const { editedRelative } = this.props;
-    const { form } = this.state;
     let data;
     let action;
     if (editedRelative) {
       action = updateRelative;
-      data = form;
+      data = values;
     } else {
       action = createRelative;
       data = {
-        ...form,
-        sex: !!form.sex,
+        ...vlaues,
+        sex: !!values.sex,
       };
-      const children = form.relativeId && [form.relativeId];
+      const children = values.relativeId && [values.relativeId];
       if (children) data.children = children;
     }
     action(data)
@@ -121,61 +95,40 @@ class CreatePage extends React.Component {
       .catch(this.handleFailure);
   };
 
-  handleFieldChange = (field, value) => {
-    this.setState(prevState => ({
-      form: {
-        ...prevState.form,
-        [field]: value,
-      },
-    }));
-  };
-
-  handleFullNameChange = (fullName) => {
-    this.handleFieldChange('fullName', fullName);
-  };
-
-  handleSexChange = (sex) => {
-    this.handleFieldChange('sex', sex);
-  };
-
-  handleRelationTypeChange = (relationType) => {
-    this.handleFieldChange('relationType', relationType);
-  };
-
-  handleRelativeIdChange = (relativeId) => {
-    this.handleFieldChange('relativeId', relativeId);
-  };
-
   render() {
-    const { relatives, editedRelative } = this.props;
-    const { form: { sex, relationType, relativeId } } = this.state;
+    const { relatives, editedRelative, relationType } = this.props;
     const editMode = !!editedRelative;
     const emptyRelatives = isEmpty(relatives);
     return (
       <View style={{ padding: 10 }}>
-        <TextInput
-          style={{ height: 40 }}
+        <Field
+          component={TextField}
+          name="fullName"
+          validate={Validator.validateRequired}
           placeholder={i18n.t('form/fullName/placeholder')}
-          onChangeText={this.handleFullNameChange}
-          defaultValue={editedRelative && editedRelative.fullName}
         />
         {!editMode && (
-          <View style={styles.sex}>
+          <Field
+            component={CheckboxField}
+            name="sex"
+            label={i18n.t('form/sex')}
+          />
             <Text>
               {i18n.t('form/sex')}
             </Text>
-            <Switch
-              value={sex}
+            <Field
+
               onValueChange={this.handleSexChange}
             />
           </View>
         )}
         {!editMode && !emptyRelatives && (
-          <Picker
-            selectedValue={relationType}
+          <Field
+            component={Picker}
+            name="relationType"
+            validate={Validator.validateRequired}
             style={{ height: 50, width: '100%' }}
             onValueChange={this.handleRelationTypeChange}
-            enable={!editMode}
           >
             {filteredRelationTypeOptions(sex)
               .map(({ code, label }) => (
@@ -185,12 +138,13 @@ class CreatePage extends React.Component {
           </Picker>
         )}
         {!editMode && !emptyRelatives && (
-          <Picker
-            selectedValue={relativeId}
+          <Field
+            component={Picker}
+            name="relativeId"
+            validate={Validator.validateRequired}
             style={{ height: 50, width: '100%' }}
             onValueChange={this.handleRelativeIdChange}
             enabled={relationType && !isNil(relationType)}
-            enable={!editMode}
           >
             {filteredConnectedRelatives(relatives, relationType)
               .map(({ _id, fullName }) => (
@@ -202,7 +156,7 @@ class CreatePage extends React.Component {
         <Button
           title={i18n.t(editedRelative ? 'actions/edit' : 'actions/save')}
           style={styles.submit}
-          onPress={this.handleSave}
+          onPress={this.props.handleSubmit(this.handleSave)}
         />
       </View>
     );
@@ -211,10 +165,33 @@ class CreatePage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { navigation: { state: { params: { editedRelative } = {} } } } = ownProps;
+  const relatives = state.relatives.list;
+  const initialValues = editedRelative ? editedRelative : {
+    fullName: '',
+    sex: true,
+    relationType: null,
+    relativeId: null,
+  };
+  if (!isEmpty(relatives)) {
+    initialValues.relationType = filteredRelationTypeOptions(initialValues.sex)[0].code;
+    const connectedRelative = filteredConnectedRelatives(relatives, initialValues.relationType);
+    initialValues.relativeId = connectedRelative && connectedRelative[0] && connectedRelative[0]._id;
+  }
   return {
-    relatives: state.relatives.list,
+    relatives,
     editedRelative,
+    initialValues,
+    relationType: formValueSelector(state, 'relationType');
   };
 };
 
-export default connect(mapStateToProps)(CreatePage);
+export default compose(
+  connect(mapStateToProps),
+  reduxForm({
+    form: 'createForm',
+    //enableReinitialize: true,
+    //keepDirtyOnReinitialize: true,
+  }),
+)(CreatePage);
+
+export default connect(mapStateToProps)(form);

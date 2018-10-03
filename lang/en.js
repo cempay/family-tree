@@ -6,6 +6,8 @@ export default {
     'actions/clear': 'Clear',
     'actions/save': 'Save',
 
+    'validator/mandatoryField': 'Required field',
+
     'tree/title': 'Family tree',
     'tree/emptyHint': 'Your family tree is empty. Start to add the most young relative.',
 
