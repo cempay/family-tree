@@ -28,7 +28,6 @@ export default class PickerField extends React.Component {
   };
 
   handleValueChange = (value) => {
-    console.log('picker', value);
     this.props.input.onChange(value);
   };
 

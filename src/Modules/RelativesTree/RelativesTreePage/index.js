@@ -27,6 +27,10 @@ class RelativesTreePage extends React.Component {
     relatives: PropTypes.array.isRequired,
     selectedId: PropTypes.string,
     navigation: PropTypes.object.isRequired,
+    /* eslint-disable react/no-unused-prop-types */
+    // TODO Перенести в context ректа.
+    language: PropTypes.string.isRequired,
+    /* eslint-enable react/no-unused-prop-types */
   };
 
   static defaultProps = {
@@ -143,6 +147,7 @@ class RelativesTreePage extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  language: state.settings.language,
   relatives: state.relatives.list,
   selectedId: state.relatives.selectedId,
 });
