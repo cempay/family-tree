@@ -7,14 +7,15 @@ import styles from './styles';
 export default class CheckboxField extends React.Component {
   static propTypes = {
     input: PropTypes.object.isRequired,
+    meta: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
   };
 
   render() {
-    const { input, label } = this.props;
+    const { input, meta, label } = this.props;
     return (
       <FormRow
-        meta={input.meta}
+        meta={meta}
       >
         <View style={styles.checkbox}>
           <Text>

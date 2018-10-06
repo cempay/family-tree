@@ -7,6 +7,7 @@ import styles from './styles';
 export default class PickerField extends React.Component {
   static propTypes = {
     input: PropTypes.object.isRequired,
+    meta: PropTypes.object.isRequired,
     options: PropTypes.array.isRequired,
     optionsMap: PropTypes.shape({
       code: PropTypes.string,
@@ -26,17 +27,23 @@ export default class PickerField extends React.Component {
     },
   };
 
+  handleValueChange = (value) => {
+    console.log('picker', value);
+    this.props.input.onChange(value);
+  };
+
   render() {
     const {
-      input, options, enabled, optionsMap: { code, label },
+      meta, options, enabled, optionsMap: { code, label },
     } = this.props;
     return (
       <FormRow
-        meta={input.meta}
+        meta={meta}
       >
         <Picker
           style={styles.picker}
           enabled={enabled}
+          onValueChange={this.handleValueChange}
         >
           {options
             .map(option => (

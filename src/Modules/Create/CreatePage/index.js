@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { View, Button, Alert } from 'react-native';
 import i18n from 'i18next';
@@ -69,13 +68,6 @@ class CreatePage extends React.Component {
   };
 
   handleSave = (values) => {
-    if (!this.checkForm()) {
-      Alert.alert(
-        '',
-        i18n.t('form/message/invalidForm'),
-      );
-      return;
-    }
     const { editedRelative } = this.props;
     let data;
     let action;
@@ -166,11 +158,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default compose(
-  connect(mapStateToProps),
-  reduxForm({
-    form: formName,
-    // enableReinitialize: true,
-    // keepDirtyOnReinitialize: true,
-  }),
-)(CreatePage);
+export default connect(mapStateToProps)(reduxForm({
+  form: formName,
+})(CreatePage));

@@ -15,7 +15,6 @@ export default {
     'form/title/edit': 'Редактировать родственника',
     'form/message/successSave': 'Данные сохранены.',
     'form/message/failureSave': 'Ошибка сохранения. {{error}}',
-    'form/message/invalidForm': 'Заполните поля формы',
     'form/fullName/placeholder': 'Фамилия Имя Отчество',
     'form/sex': 'Мужщина?',
     'form/relativeType/father': 'Является папой для',

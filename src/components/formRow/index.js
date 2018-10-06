@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
+import i18n from 'i18next';
 import styles from './styles';
 
 class FormRow extends React.Component {
@@ -18,7 +19,7 @@ class FormRow extends React.Component {
     const { label } = this.props;
     if (!label) return null;
     return (
-      <Text styles={styles.label}>
+      <Text style={styles.label}>
         {label}
       </Text>
     );
@@ -30,20 +31,23 @@ class FormRow extends React.Component {
     return children;
   };
 
-  render() {
+  renderError = () => {
     const { meta = {} } = this.props;
-
-    const validationError = meta.touched && meta.error ? (
-      <Text styles={styles.error}>
-        {meta.error}
+    return meta.touched && meta.error ? (
+      <Text style={styles.error}>
+        {i18n.t(meta.error)}
       </Text>
-    ) : null;
+    ) : (
+      <Text style={styles.error} />
+    );
+  };
 
+  render() {
     return (
-      <View styles={styles.formRow}>
+      <View style={styles.formRow}>
         {this.renderLabel()}
         {this.renderChildren()}
-        {validationError}
+        {this.renderError()}
       </View>
     );
   }

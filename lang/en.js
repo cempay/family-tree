@@ -15,7 +15,6 @@ export default {
     'form/title/edit': 'Edit relative',
     'form/message/successSave': 'Success data save',
     'form/message/failureSave': 'Failure data save. {{error}}',
-    'form/message/invalidForm': 'Fill form fields',
     'form/fullName/placeholder': 'Surname Name Patronymic',
     'form/sex': 'Male?',
     'form/relativeType/father': 'Is father of',
