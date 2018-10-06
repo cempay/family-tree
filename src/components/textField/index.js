@@ -1,22 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {TextInput} from 'react-native';
+import { TextInput } from 'react-native';
+import FormRow from '../formRow';
 
 export default class TextField extends React.Component {
   static propTypes = {
-    inputProps: PropTypes.object.isRequired,
+    input: PropTypes.object.isRequired,
     placeholder: PropTypes.string,
   };
 
+  static defaultProps = {
+    placeholder: null,
+  };
+
   render() {
-    const { inputProps, placeholder } = this.props;
+    const { input, placeholder } = this.props;
     return (
-      <TextInput
-        {...inputProps}
-        style={{ height: 40 }}
-        placeholder={placeholder}
-        onChangeText={inputProps.onChange}
-      />
+      <FormRow
+        meta={input.meta}
+      >
+        <TextInput
+          {...input}
+          style={{ height: 40 }}
+          placeholder={placeholder}
+          onChangeText={input.onChange}
+        />
+      </FormRow>
     );
   }
 }

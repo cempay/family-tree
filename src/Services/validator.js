@@ -1,14 +1,15 @@
-const validateOneField = function(validations, value, props) {
-  validations = Array.isArray(validations) ? validations : [validations || {}];
+const validateOneField = (validationsList, value, props) => {
+  const validations = Array.isArray(validationsList) ? validationsList : [validationsList || {}];
   for (let i = 0; i < validations.length; i++) {
     const { handler, message, ...params } = validations[i] || {};
     if (handler && handler.validator && !handler.validator(value, params, props)) {
       return message || handler.default.message || '';
     }
   }
+  return undefined;
 };
 
-const _isEmpty = function(value) {
+const _isEmpty = (value) => {
   if (value === undefined) return true;
   if (value === null) return true;
   if (Number.isNaN(value)) return true;
@@ -27,19 +28,18 @@ const required = {
   },
 };
 
-const validateRequired = value =>
-  Validator.validateOneField(
-    [
-      {
-        handler: Validator.required,
-      },
-    ],
-    value,
-  );
+const validateRequired = value => validateOneField(
+  [
+    {
+      handler: required,
+    },
+  ],
+  value,
+);
 
-export default Validator = {
+export default {
   validateOneField,
 
   required,
   validateRequired,
-}
+};

@@ -1,26 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Text, Switch} from 'react-native';
+import { View, Text, Switch } from 'react-native';
+import FormRow from '../formRow';
 import styles from './styles';
 
 export default class CheckboxField extends React.Component {
   static propTypes = {
-    inputProps: PropTypes.object.isRequired,
-    label: PropTypes.string,
+    input: PropTypes.object.isRequired,
+    label: PropTypes.string.isRequired,
   };
 
   render() {
-    const { inputProps, label } = this.props;
+    const { input, label } = this.props;
     return (
-      <View style={styles.checkbox}>
-        <Text>
-          {label}
-        </Text>
-        <Switch
-          {...inputProps}
-          onValueChange={inputProps.onChange}
-        />
-      </View>
+      <FormRow
+        meta={input.meta}
+      >
+        <View style={styles.checkbox}>
+          <Text>
+            {label}
+          </Text>
+          <Switch
+            {...input}
+            onValueChange={input.onChange}
+          />
+        </View>
+      </FormRow>
     );
   }
 }
